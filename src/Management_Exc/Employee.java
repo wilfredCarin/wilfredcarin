@@ -11,7 +11,12 @@ public class Employee extends Person {
      * @throws IllegalArgumentException when salary does not reach minimum salary of 30,000
      */
     public Employee(String name, int age, double salary)  {
+
         super(name, age);
+        if (salary < 30000) {
+            throw new IllegalArgumentException("Salary must be greater than or equal to 30000");
+        }
+        this.salary = salary;
     }
 
     public double getSalary() {

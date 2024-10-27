@@ -16,7 +16,38 @@ public class Main {
      * @throws NoSuchElementException when given manager or employee does not exist in the list of persons
      */
     public static void giveRaise(List<Person> persons, String manager, String employee, double salary)  {
+        if (salary < 0) {
+            throw new IllegalArgumentException("Raise must be non-negative");
+        }
 
+        Manager foundManager = null;
+        Employee foundEmployee = null;
+
+        for (Person person : persons) {
+            if (person.getName().equals(manager)) {
+                if (person instanceof Manager) {
+                    foundManager = (Manager) person;
+                } else {
+                    throw new ClassCastException(manager + " is not a manager");
+                }
+            }
+            if (person.getName().equals(employee)) {
+                if (person instanceof Employee) {
+                    foundEmployee = (Employee) person;
+                } else {
+                    throw new ClassCastException(employee + " is not an employee");
+                }
+            }
+        }
+
+        if (foundManager == null) {
+            throw new NoSuchElementException(manager + " does not exist");
+        }
+        if (foundEmployee == null) {
+            throw new NoSuchElementException(employee + " does not exist");
+        }
+
+        foundManager.giveRaise(foundEmployee, salary);
     }
 
     /**
@@ -29,7 +60,34 @@ public class Main {
      * @throws IllegalStateException when developer already has a manager
      */
     public static void assignPM(List<Person> persons, String developer, String manager) {
+        Developer foundDeveloper = null;
+        Manager foundManager = null;
 
+        for (Person person : persons) {
+            if (person.getName().equals(developer)) {
+                if (person instanceof Developer) {
+                    foundDeveloper = (Developer) person;
+                } else {
+                    throw new ClassCastException(developer + " is not a developer");
+                }
+            }
+            if (person.getName().equals(manager)) {
+                if (person instanceof Manager) {
+                    foundManager = (Manager) person;
+                } else {
+                    throw new ClassCastException(manager + " is not a manager");
+                }
+            }
+        }
+
+        if (foundDeveloper == null) {
+            throw new NoSuchElementException(developer + " does not exist");
+        }
+        if (foundManager == null) {
+            throw new NoSuchElementException(manager + " does not exist");
+        }
+
+        foundDeveloper.setProjectManager(foundManager);
     }
 
     /**
@@ -42,6 +100,34 @@ public class Main {
      * @throws NoSuchElementException when given customer or employee is not in the list of persons
      */
     public static String customerSpeak(List<Person> persons, String customer, String employee) {
-        return null;
+
+        Customer foundCustomer = null;
+        Employee foundEmployee = null;
+
+        for (Person person : persons) {
+            if (person.getName().equals(customer)) {
+                if (person instanceof Customer) {
+                    foundCustomer = (Customer) person;
+                } else {
+                    throw new ClassCastException(customer + " is not a customer");
+                }
+            }
+            if (person.getName().equals(employee)) {
+                if (person instanceof Employee) {
+                    foundEmployee = (Employee) person;
+                } else {
+                    throw new ClassCastException(employee + " is not an employee");
+                }
+            }
+        }
+
+        if (foundCustomer == null) {
+            throw new NoSuchElementException(customer + " does not exist");
+        }
+        if (foundEmployee == null) {
+            throw new NoSuchElementException(employee + " does not exist");
+        }
+
+        return foundCustomer.speak(foundEmployee);
     }
 }
